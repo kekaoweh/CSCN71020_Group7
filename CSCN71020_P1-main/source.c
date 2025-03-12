@@ -39,7 +39,60 @@ void get_triangle_input() {
 
 }
 
+//calculate distance between two points
+double distance(double x1, double y1, double x2, double y2) {
+    return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
+}
+
+ //checks if the 4 sides form a rectangle using rounding
+int is_rectangle(double p1, double p2, double p3, double p4, double diag1, double diag2) {
+    double epilson = 1e-6;
+    return (fabs(p1 - p3) < epilson &&
+        fabs(p2 - p4) < epilson &&
+        fabs(diag1 - diag2) < epilson);
+        
+}
+
+//get the users input for 4 points and determine if they form a rectangle
 void get_rectangle_input() {
+    double x[4], y[4];
+
+    printf("Enter four points (x, y) in the following order:\n");
+    printf("Point 1: Bottom-left corner\n");
+    printf("Point 2: Bottom-right corner\n");
+    printf("Point 3: Top-right corner\n");
+    printf("Point 4: Top-left corner\n");
+    printf("Please enter each point as an x y pair (e.g., '2, 3' for x=2, y=3):\n");
+
+    for (int i = 0; i < 4; i++) {
+        printf("Point %d: ", i + 1);
+        if (scanf("%lf %lf", &x[i], &y[i]) != 2) { 
+            printf("Invalid input. Enter valid coordinates in the format 'x y'.\n");
+            return;
+        }
+    }
+
+    //calculate distances of sequential points
+    double p1 = distance(x[0], y[0], x[1], y[1]);
+    double p2 = distance(x[1], y[1], x[2], y[2]);
+    double p3 = distance(x[2], y[2], x[3], y[3]);
+    double p4 = distance(x[3], y[3], x[0], y[0]);
+
+    //calculate diagonals
+    double diag1 = distance(x[0], y[0], x[2], y[2]);
+    double diag2 = distance(x[1], y[1], x[3], y[3]);
+
+    //calculate perimeter
+    double perimeter = p1 + p2 + p3 + p4;
+    printf("Perimeter of the shape: %.2f\n", perimeter);
+
+    if (is_rectangle(p1, p2, p3, p4, diag1, diag2)) {
+        double area = p1 * p2;
+        printf("The points form a rectangle. Area: %.2f\n", area);
+    }
+    else {
+        printf("The points do not form a rectangle.\n");
+    }
 
 }
 
@@ -61,6 +114,8 @@ int main() {
         case 2: 
             get_rectangle_input();
             exit(EXIT_FAILURE);
+        case 3: 
+            return 0;
         default:
             printf("Invalid choice. Try again.\n");
         }
