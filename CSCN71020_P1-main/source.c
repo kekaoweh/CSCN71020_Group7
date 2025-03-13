@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #define M_PI 3.142
+#define EPSILON 1e-6
 
 // check if sides form a valid triangle 
 int validTriangle(double a, double b, double c) {
@@ -24,7 +25,7 @@ void get_triangle_input() {
     double a, b, c;
     printf("Enter three values for the sides of a triangle(in the format 1, 2, 3): ");
 
-    if (scanf("%lf, %lf, %lf", & a, &b, &c) != 3 || a <= 0 || b <= 0 || c <= 0) {
+    if (scanf("%lf, %lf, %lf", &a, &b, &c) != 3 || a <= 0 || b <= 0 || c <= 0) {
         printf("Invalid input! Enter positive numbers");
         exit(EXIT_FAILURE);
     }
@@ -44,13 +45,36 @@ double distance(double x1, double y1, double x2, double y2) {
     return sqrt(pow(x2 - x1, 2) + pow(y2 - y1, 2));
 }
 
- //checks if the 4 sides form a rectangle using rounding
+//checks if the 4 sides form a rectangle using rounding
 int is_rectangle(double p1, double p2, double p3, double p4, double diag1, double diag2) {
     double epilson = 1e-6;
     return (fabs(p1 - p3) < epilson &&
         fabs(p2 - p4) < epilson &&
         fabs(diag1 - diag2) < epilson);
-        
+
+}
+
+// Check if all points are in a straight line
+int is_straight_line(double x[], double y[]) {
+    if ((fabs(x[0] - x[1]) < EPSILON && fabs(x[1] - x[2]) < EPSILON && fabs(x[2] - x[3]) < EPSILON) ||
+        (fabs(y[0] - y[1]) < EPSILON && fabs(y[1] - y[2]) < EPSILON && fabs(y[2] - y[3]) < EPSILON)) {
+        printf("The points are in a straight line and do not form a rectangle.\n");
+        return 1; // Indicates a straight line issue
+    }
+    return 0; // Points are not in a straight line
+}
+
+// Check for duplicate points
+int has_duplicate_points(double x[], double y[]) {
+    for (int i = 0; i < 4; i++) {
+        for (int j = i + 1; j < 4; j++) {
+            if (fabs(x[i] - x[j]) < EPSILON && fabs(y[i] - y[j]) < EPSILON) {
+                printf("Duplicate points detected at (%.2f, %.2f). Each point must be unique.\n", x[i], y[i]);
+                return 1; // Duplicate found
+            }
+        }
+    }
+    return 0; // No duplicates
 }
 
 // sort points in the correct order
@@ -75,19 +99,33 @@ void sortRectangle_point(double x[], double y[]) {
 void get_rectangle_input() {
     double x[4], y[4];
 
-    printf("Enter four points (x, y) in the following order:\n");
+    printf("Enter four points (x y) in the following order:\n");
     printf("Point 1: Bottom-left corner\n");
     printf("Point 2: Bottom-right corner\n");
     printf("Point 3: Top-right corner\n");
     printf("Point 4: Top-left corner\n");
-    printf("Please enter each point as an x y pair (e.g., '2, 3' for x=2, y=3):\n");
+    printf("Please enter each point as an x y pair (e.g., '2 3' for x=2, y=3):\n");
 
     for (int i = 0; i < 4; i++) {
-        printf("Point %d: ", i + 1);
-        if (scanf("%lf %lf", &x[i], &y[i]) != 2) { 
-            printf("Invalid input. Enter valid coordinates in the format 'x y'.\n");
-            return;
+        while (1) {
+            printf("Point %d: ", i + 1);
+            if (scanf("%lf %lf", &x[i], &y[i]) != 2) {
+                printf("Invalid input. Enter valid coordinates in the format 'x y'.\n");
+                while (getchar() != '\n');//clear input buffer
+                continue;
+            }
+            break;
         }
+    }
+
+    // Check for duplicate points
+    if (has_duplicate_points(x, y)) {
+        return; // Stop execution if duplicates exist
+    }
+
+    // Check if points are in a straight line
+    if (is_straight_line(x, y)) {
+        return; // Stop execution if points form a straight line
     }
 
     //calculate distances of sequential points
@@ -119,7 +157,7 @@ int main() {
     while (1) {
         printf("\nMenu:\n1. Triangle Feature\n2. Rectangle Feature\n3. Exit\n");
         printf("Enter your choice: ");
-        
+
         if (scanf("%d", &choice) != 1) {
             printf("Invalid Input!");
             exit(EXIT_FAILURE);
@@ -129,16 +167,16 @@ int main() {
         case 1:
             get_triangle_input();
             exit(EXIT_FAILURE);
-        case 2: 
+        case 2:
             get_rectangle_input();
             exit(EXIT_FAILURE);
-        case 3: 
+        case 3:
             return 0;
         default:
             printf("Invalid choice. Try again.\n");
         }
-           
-        
+
+
     }
     return 0;
 }
