@@ -53,6 +53,24 @@ int is_rectangle(double p1, double p2, double p3, double p4, double diag1, doubl
         
 }
 
+// sort points in the correct order
+void sortRectangle_point(double x[], double y[]) {
+    double minX = x[0], minY = y[0], maxX = x[0], maxY = y[0];
+    for (int i = 1; i < 4; i++) {
+        if (x[i] < minX) minX = x[i];
+        if (x[i] > maxX) maxX = x[i];
+        if (y[i] < minY) minY = y[i];
+        if (y[i] > maxY) maxY = y[i];
+    }
+
+    //assign sorted points
+    x[0] = minX; y[0] = minY; //bottom left
+    x[1] = maxX; y[1] = minY; //bottom right 
+    x[2] = maxX; y[2] = maxY; //top right
+    x[3] = minX; y[3] = maxY; //top left
+
+}
+
 //get the users input for 4 points and determine if they form a rectangle
 void get_rectangle_input() {
     double x[4], y[4];
