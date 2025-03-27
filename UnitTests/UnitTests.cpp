@@ -91,18 +91,25 @@ namespace TriangleRectangleTests
             int result = is_rectangle(p1, p2, p3, p4, d1, d2);
             Assert::AreEqual(0, result);  
         }
-
-        TEST_METHOD(StraightLineTest)
+        TEST_METHOD(TestIsStraightLine_Horizontal)
         {
-            double p1 = distance(1, 1, 2, 1);
-            double p2 = distance(2, 1, 3, 1);
-            double p3 = distance(3, 1, 4, 1);
-            double p4 = distance(4, 1, 1, 1);
-            double d1 = distance(1, 1, 3, 1);
-            double d2 = distance(2, 1, 4, 1);
+            double x[] = { 1, 2, 3, 4 };
+            double y[] = { 5, 5, 5, 5 };
+            Assert::AreEqual(1, is_straight_line(x, y));
+        }
 
-            int result = is_rectangle(p1, p2, p3, p4, d1, d2);
-            Assert::AreEqual(0, result);
+        TEST_METHOD(TestIsStraightLine_Vertical)
+        {
+            double x[] = { 2, 2, 2, 2 };
+            double y[] = { 1, 2, 3, 4 };
+            Assert::AreEqual(1, is_straight_line(x, y));
+        }
+
+        TEST_METHOD(TestIsStraightLine_NotLine)
+        {
+            double x[] = { 1, 2, 2, 1 };
+            double y[] = { 1, 1, 2, 2 };
+            Assert::AreEqual(0, is_straight_line(x, y));
         }
         TEST_METHOD(TestHasDuplicatePoints_True)
         {
