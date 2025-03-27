@@ -58,5 +58,51 @@ namespace TriangleRectangleTests
         }
 
     };
+    TEST_CLASS(RectangleTests)
+    {
+    public:
 
+        TEST_METHOD(ValidRectangleTest)
+        {
+            // Arrange
+            double p1 = distance(1, 1, 4, 1);
+            double p2 = distance(4, 1, 4, 4);
+            double p3 = distance(4, 4, 1, 4);
+            double p4 = distance(1, 4, 1, 1);
+            double d1 = distance(1, 1, 4, 4);
+            double d2 = distance(4, 1, 1, 4);
+
+            int result = is_rectangle(p1, p2, p3, p4, d1, d2);
+
+           
+            Assert::AreEqual(1, result);  
+        }
+
+        TEST_METHOD(InvalidRectangleTest)
+        {
+            // Slightly off shape
+            double p1 = distance(1, 1, 4, 1);
+            double p2 = distance(4, 1, 4.5, 4);
+            double p3 = distance(4.5, 4, 1, 4);
+            double p4 = distance(1, 4, 1, 1);
+            double d1 = distance(1, 1, 4.5, 4);
+            double d2 = distance(4, 1, 1, 4);
+
+            int result = is_rectangle(p1, p2, p3, p4, d1, d2);
+            Assert::AreEqual(0, result);  
+        }
+
+        TEST_METHOD(StraightLineTest)
+        {
+            double p1 = distance(1, 1, 2, 1);
+            double p2 = distance(2, 1, 3, 1);
+            double p3 = distance(3, 1, 4, 1);
+            double p4 = distance(4, 1, 1, 1);
+            double d1 = distance(1, 1, 3, 1);
+            double d2 = distance(2, 1, 4, 1);
+
+            int result = is_rectangle(p1, p2, p3, p4, d1, d2);
+            Assert::AreEqual(0, result);
+        }
+    };
 }
