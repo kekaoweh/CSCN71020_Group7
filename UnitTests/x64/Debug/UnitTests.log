@@ -1,6 +1,5 @@
 ﻿  pch.cpp
   source.c
   UnitTests.cpp
-  LINK : C:\Users\lonts\source\repos\CSCN71020_Group7\CSCN71020_P1-main\x64\Debug\UnitTests.dll not found or not built by the last incremental link; performing full link
      Creating library C:\Users\lonts\source\repos\CSCN71020_Group7\CSCN71020_P1-main\x64\Debug\UnitTests.lib and object C:\Users\lonts\source\repos\CSCN71020_Group7\CSCN71020_P1-main\x64\Debug\UnitTests.exp
   UnitTests.vcxproj -> C:\Users\lonts\source\repos\CSCN71020_Group7\CSCN71020_P1-main\x64\Debug\UnitTests.dll
