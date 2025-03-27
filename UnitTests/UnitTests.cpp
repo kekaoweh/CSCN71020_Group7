@@ -104,5 +104,35 @@ namespace TriangleRectangleTests
             int result = is_rectangle(p1, p2, p3, p4, d1, d2);
             Assert::AreEqual(0, result);
         }
+        TEST_METHOD(TestHasDuplicatePoints_True)
+        {
+            double x[] = { 1, 2, 2, 1 };
+            double y[] = { 1, 2, 2, 1 };  // (2,2) appears twice
+            Assert::AreEqual(1, has_duplicate_points(x, y));
+        }
+
+        TEST_METHOD(TestHasDuplicatePoints_False)
+        {
+            double x[] = { 1, 2, 3, 4 };
+            double y[] = { 1, 2, 3, 4 };
+            Assert::AreEqual(0, has_duplicate_points(x, y));
+        }
+
+        TEST_METHOD(TestSortRectanglePoint_Order)
+        {
+            double x[] = { 4, 1, 1, 4 };
+            double y[] = { 1, 1, 4, 4 };
+
+            sortRectangle_point(x, y);
+
+            Assert::AreEqual(1.0, x[0], 0.0001);  // Bottom-left X
+            Assert::AreEqual(1.0, y[0], 0.0001);  // Bottom-left Y
+            Assert::AreEqual(4.0, x[1], 0.0001);  // Bottom-right X
+            Assert::AreEqual(1.0, y[1], 0.0001);  // Bottom-right Y
+            Assert::AreEqual(4.0, x[2], 0.0001);  // Top-right X
+            Assert::AreEqual(4.0, y[2], 0.0001);  // Top-right Y
+            Assert::AreEqual(1.0, x[3], 0.0001);  // Top-left X
+            Assert::AreEqual(4.0, y[3], 0.0001);  // Top-left Y
+        }
     };
 }
