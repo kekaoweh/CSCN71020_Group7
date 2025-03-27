@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <stdlib.h>
+#include "source.h"
 
 #define M_PI 3.142
 #define EPSILON 1e-6
