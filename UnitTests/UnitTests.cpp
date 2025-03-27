@@ -36,6 +36,27 @@ namespace TriangleRectangleTests
             Assert::IsFalse(validTriangle(0, 0, 0));  // all sides are 0
         }
 
+        // Edge case where one side is very small
+            TEST_METHOD(SmallSideTest)
+        {
+            Assert::IsTrue(validTriangle(0.0001, 1000, 1000));
+            Assert::IsFalse(validTriangle(0.0001, 1000, 0.0001));
+        }
+
+        // Edge case where sides are zero
+        TEST_METHOD(ZeroSideTest)
+        {
+            Assert::IsFalse(validTriangle(0, 4, 5));
+            Assert::IsFalse(validTriangle(0, 0, 0));
+        }
+
+        // Test for large triangle values
+        TEST_METHOD(LargeTriangleTest)
+        {
+            Assert::IsTrue(validTriangle(1000000, 1000000, 1000000));
+            Assert::IsFalse(validTriangle(1000000, 1000000, 2000000));
+        }
+
     };
 
 }
